@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        background-color: rgb(22, 35, 35);
+        
+    }
+    textarea{
+        outline: none;
+        padding: 2rem;
+        font-size:large;
+        font-weight: bolder;
+        height: 70vh;
+        width: 95.8%;
+        border: none;
+        resize: none;
+        color: rgba(255, 255, 255, 0.934);
+        background-color: rgb(22, 35, 35);
+    }
+    
+    button{
+        position: relative;
+        left: 76%;
+        padding: .5rem;
+        font-weight: bold;
+        font-size: large;
+        background-color: blue;
+        border-radius: 1rem;
+    }
+    h1{ color: white;
+        display: inline;
+    }
+    hr{
+        background-color: white;
+        color: white;
+        height: 3px;
+    }
+</style>
+<body>
+    <form action="/save-file" method="POST">
+        <h1>Filename : <%=filename%></h1>
+        <button type="submit">Save File</button>
+<hr>
+        <textarea name="textarea" rows="10" cols="15" placeholder="File is empty..."><%-data%></textarea>
+        <input type="hidden" name="fpath"   value=<%=path %> />
+    </form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+ .main{
+     width: calc(100%-10rem);
+     margin-left: 11.1rem;  
+     padding-left: 2rem; 
+     padding-top: 1rem;
+     gap: .2rem;
+     display: flex; 
+     flex-wrap: wrap;
+ }
+
+ .side{
+    position: absolute;
+    width:9rem;
+    padding: .1rem;
+    margin-bottom: 0rem;
+ }
+
+ .side>.folder{
+    overflow: hidden;
+    cursor: default;
+    margin-left: .4rem;
+    margin-top: 1.6rem;
+    margin-bottom: 1rem;
+ }
+
+#header{
+     width: 100%;
+     display:flex;
+     align-items: center;
+     justify-content: space-between ;
+     border-bottom: 2px solid rgba(8, 8, 8, 0.756);
+ }
+
+ #header>button{    
+    padding: .6rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    background-color: #080808;
+    cursor: pointer;
+    color: #32f1e8;
+}
+
+ #header>input{
+    padding:.6rem;
+    font-size: medium;
+    margin-right: 1.5rem;
+    border-radius: 2rem;
+ }
+
+ .main>div{
+        
+        width: 18rem;
+        height: 6rem;
+        border:none;
+        overflow: hidden;
+        align-items: center;
+}
+
+.new{
+    display: inline-block;
+    
+}
+
+hr{
+    margin-bottom: 0rem;
+}
+
+.spn1{
+        font-size: 3.5rem; 
+        cursor: default;  
+ }
+.spn2{
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: inline-block;
+    height: 1.2rem;
+    width: 12rem;
+    overflow: hidden;
+    cursor: default;
+}
+
+.main>.select{
+    background-color: rgba(218, 212, 212, 0.86);
+    outline: 2px solid rgb(28, 25, 25);
+}
+
+
+.main>div:hover,.side>.folder:hover{
+      background-color:rgba(115, 113, 113, 0.152);
+ }
+
