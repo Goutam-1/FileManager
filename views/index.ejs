@@ -15,6 +15,10 @@
         <button class= 'btn' id="rename">Rename</button>
         <button class='btn' id="delete">Delete</button>
         <button class='btn' id="file">New File</button>
+        <form id="uploadForm" enctype="multipart/form-data" style="display: inline;">
+            <input type="file" id="fileInput" name="file" style="display: none;">
+            <button type="button" class='btn' id="uploadBtn">Upload File</button>
+        </form>
         <input class='btn' id='search' type="text" placeholder="search">
     </div>
     
@@ -26,7 +30,7 @@
                 <%for(let ele of data) { %>
 
                   <% if(ele.includes(".txt")||ele.includes(".docx")||ele.includes('.doc')||ele.includes('.pdf')) { %>
-                             <div class="folder"><span style="font-size:large;">📄</span><span style="margin-left:.2rem;"><%=ele %></span></div>
+                             <div class="folder"><span style="font-size:large; ">📄</span><span style="margin-left:.2rem;"><%=ele %></span></div>
                               
                   <% } else if(ele.includes('.jpg')||ele.includes('.png')){ %>
                               <div class="folder"><span style="font-size:large;">🖼️</span><span style="margin-left:.2rem;"><%=ele %> </span></div> 
@@ -44,6 +48,8 @@
                   
                        <%}%>
                          <%  } %>
+                          
+                         
     </section>
     <section class="main">
 

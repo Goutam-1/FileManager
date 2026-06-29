@@ -4,6 +4,8 @@ let rename=document.getElementById('rename')
 let scn=document.getElementsByClassName("main")
 let newFile=document.getElementById("file")
 let inp=document.getElementById("search")
+let uploadBtn = document.getElementById("uploadBtn")
+let fileInput = document.getElementById("fileInput")
 
 
 
@@ -165,3 +167,30 @@ newFile.addEventListener("click", (e) => {
    });
 });
 
+uploadBtn.addEventListener("click", () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  
+  const currentPath = window.location.pathname.slice(1);
+  let uploadUrl = "/upload";
+  let redirectPath = '/';
+  
+  if (currentPath) {
+    uploadUrl = "/upload?path=" + encodeURIComponent(currentPath);
+    redirectPath = '/' + currentPath;
+  }
+
+  fetch(uploadUrl, {
+    method: "POST",
+    body: formData
+  }).then(() => {
+    window.location.href = redirectPath;
+  });
+});

@@ -3,6 +3,7 @@ import fs from "fs";
 import path from 'path'
 import search from "./search.js";
 import process from "process";
+import multer from "multer";
 
 
 
@@ -10,6 +11,32 @@ const app = express();
 
 
 const rootPath =path.join(process.cwd(),'Root')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    let uploadPath = rootPath;
+    let currentPath = req.query && req.query.path;
+    if (currentPath) {
+      try {
+        currentPath = decodeURIComponent(currentPath).replace(/^\/+/, "");
+      } catch (e) {
+        currentPath = currentPath.replace(/^\/+/, "");
+      }
+      uploadPath = path.join(rootPath, currentPath);
+    }
+    try {
+      fs.mkdirSync(uploadPath, { recursive: true });
+      cb(null, uploadPath);
+    } catch (err) {
+      cb(err);
+    }
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.static("public"));
@@ -21,8 +48,20 @@ app.post("/save-file",(req,res)=>{
         let {textarea,fpath}=req.body
         fs.writeFileSync(fpath,textarea,'utf8');
         console.log(req.body.fpath.split(rootPath));
-        
-        res.redirect(req.body.fpath.split(rootPath)[1])     
+        res.redirect(req.body.fpath.split(rootPath)[1])
+})
+
+app.post("/upload", upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  
+  let redirectPath = '/';
+  if (req.query.path) {
+    redirectPath = '/' + req.query.path;
+  }
+  
+  res.redirect(redirectPath);
 })
 
 app.delete("/",(req,res)=>{
@@ -193,16 +232,12 @@ app.post("/*pathName",(req, res) => {
     let data = fs.readdirSync(rootPath);
     res.render("./index.ejs", { data });
   }
-
-
 });
-
 
 app.get("/", (req, res) => {
     let data = fs.readdirSync(rootPath);
     res.render("./index.ejs", { data });
 });
-
 
 app.get("/*pathName", (req, res) => {
   let pathvalue = "";
@@ -218,6 +253,25 @@ app.get("/*pathName", (req, res) => {
                  res.render("edit",{filename:req.params.pathName[req.params.pathName.length-1],data:data,path:pathvalue}) 
                 }   
           else{
+                        const ext = path.extname(pathvalue).toLowerCase();
+            const mimeTypes = {
+              '.mp4': 'video/mp4',
+              '.webm': 'video/webm',
+              '.avi': 'video/x-msvideo',
+              '.mov': 'video/quicktime',
+              '.mkv': 'video/x-matroska',
+              '.flv': 'video/x-flv',
+              '.wmv': 'video/x-ms-wmv',
+              '.jpg': 'image/jpeg',
+              '.jpeg': 'image/jpeg',
+              '.png': 'image/png',
+              '.gif': 'image/gif',
+              '.pdf': 'application/pdf',
+              '.mp3': 'audio/mpeg',
+              '.wav': 'audio/wav'
+            };
+            const mimeType = mimeTypes[ext] || 'application/octet-stream';
+            res.setHeader('Content-Type', mimeType);
             res.sendFile(pathvalue)
           }
      }
@@ -227,9 +281,6 @@ app.get("/*pathName", (req, res) => {
        res.render("./index.ejs", { data });
    }
 });
-
-
-
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000..........");
