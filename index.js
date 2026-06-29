@@ -3,11 +3,13 @@ import fs from "fs";
 import path from 'path'
 import search from "./search.js";
 import process from "process";
-import multer from "multer";
+import multer from "multer";import dotenv from "dotenv";
+
 
 
 
 const app = express();
+dotenv.config();
 
 
 const rootPath =path.join(process.cwd(),'Root')
@@ -282,6 +284,9 @@ app.get("/*pathName", (req, res) => {
    }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000..........");
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
