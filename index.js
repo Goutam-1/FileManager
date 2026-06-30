@@ -117,6 +117,8 @@ app.patch('/',(req,res)=>{
 
 app.patch('/*pathName',(req,res)=>{
 let {oldName,newName}=req.body
+console.log(oldName, newName);
+
     let pathvalue = "";
     for (const element of req.params.pathName) {
       pathvalue = path.join(pathvalue,element);

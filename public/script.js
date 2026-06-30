@@ -116,25 +116,71 @@ inp.addEventListener('change',(e)=>{
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({'inpute':e.target.value})
       }).then((res)=>res.json()).then((res)=>{
+        console.log(res.data);
         
         
 if(res.data.length>0)
    { scn[0].innerText="";
     newFolder.disabled=true 
-   for(let ele of res.data)
-  {
-  let div = document.createElement("div");
-  div.classList.add("folder");
-  let spn1 = document.createElement("span");
-  spn1.classList.add("spn1");
-  spn1.innerText = "📁";
-  let spn2 = document.createElement("span");
-  //spn2.classList.add("spn2");
-  spn2.innerText=ele
-  div.appendChild(spn1);
-  div.appendChild(spn2);
-  scn[0].appendChild(div);
- } }})   
+   for (let ele of res.data) {
+    let div = document.createElement("div");
+    div.classList.add("folder");
+
+    let spn1 = document.createElement("span");
+    spn1.classList.add("spn1");
+
+    // Convert to lowercase for case-insensitive matching
+    let file = ele.toLowerCase();
+
+    if (
+        file.endsWith(".txt") ||
+        file.endsWith(".doc") ||
+        file.endsWith(".docx") ||
+        file.endsWith(".pdf")
+    ) {
+        spn1.innerText = "📄";
+    }
+    else if (
+        file.endsWith(".jpg") ||
+        file.endsWith(".jpeg") ||
+        file.endsWith(".png") ||
+        file.endsWith(".gif") ||
+        file.endsWith(".webp")
+    ) {
+        spn1.innerText = "🖼️";
+    }
+    else if (
+        file.endsWith(".mp4") ||
+        file.endsWith(".mkv") ||
+        file.endsWith(".mov") ||
+        file.endsWith(".avi")
+    ) {
+        spn1.innerText = "🎞️";
+    }
+    else if (
+        file.endsWith(".mp3") ||
+        file.endsWith(".wav") ||
+        file.endsWith(".aac") ||
+        file.endsWith(".flac")
+    ) {
+        spn1.innerText = "🎵";
+    }
+    else {
+        // Folder
+        spn1.innerText = "📁";
+    }
+
+    let spn2 = document.createElement("span");
+    spn2.classList.add("spn2");
+    spn2.innerText = ele;
+
+    div.appendChild(spn1);
+    div.appendChild(spn2);
+    scn[0].appendChild(div);
+}
+
+}}) 
+
  })       
 
 
