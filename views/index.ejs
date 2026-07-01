@@ -12,7 +12,7 @@
     <div id="header">
         <h2>File Manger</h2>
         <button class='btn' id="folder">New Folder</button>
-        <button class= 'btn' id="rename">Rename</button>
+        <button class='btn' id="rename">Rename</button>
         <button class='btn' id="delete">Delete</button>
         <button class='btn' id="file">New File</button>
         <form id="uploadForm" enctype="multipart/form-data" style="display: inline;">
@@ -21,62 +21,86 @@
         </form>
         <input class='btn' id='search' type="text" placeholder="search">
     </div>
-    
-      
 
-<hr style="transform: rotate(90deg);transform-origin:left; margin-left: 11rem; margin-top: 0px; border:1px solid black;">
+
+
+    <hr
+        style="transform: rotate(90deg);transform-origin:left; margin-left: 11rem; margin-top: 0px; border:1px solid black;">
 
     <section class="side">
-                <%for(let ele of data) { %>
+        <%for(let ele of data) { %>
 
-                  <% if(ele.includes(".txt")||ele.includes(".docx")||ele.includes('.doc')||ele.includes('.pdf')) { %>
-                             <div class="folder"><span style="font-size:large; ">📄</span><span style="margin-left:.2rem;"><%=ele %></span></div>
-                              
-                  <% } else if(ele.includes('.jpg')||ele.includes('.png')){ %>
-                              <div class="folder"><span style="font-size:large;">🖼️</span><span style="margin-left:.2rem;"><%=ele %> </span></div> 
-                            
-                  <%} else if(ele.includes('.mp4')||ele.includes('.mkv')||ele.includes('.mov')){ %>      
-                             <div class="folder"><span style="font-size:large;">🎞️</span><span style="margin-left:.2rem;"><%=ele %></span></div>
+            <% if(ele.includes(".txt")||ele.includes(".docx")||ele.includes('.doc')||ele.includes('.pdf')) { %>
+                <div class="folder"><span style="font-size:large; ">📄</span><span style="margin-left:.2rem;">
+                        <%=ele %>
+                    </span></div>
+
+                <% } else if(ele.includes('.jpg')||ele.includes('.png')){ %>
+                    <div class="folder"><span style="font-size:large;">🖼️</span><span style="margin-left:.2rem;">
+                            <%=ele %>
+                        </span></div>
+
+                    <%} else if(ele.includes('.mp4')||ele.includes('.mkv')||ele.includes('.mov')){ %>
+                        <div class="folder"><span style="font-size:large;">🎞️</span><span style="margin-left:.2rem;">
+                                <%=ele %>
+                            </span></div>
 
 
-                 <%} else if(ele.includes('.mp3')||ele.includes('.wav')){ %>
-                                 <div class="folder"><span style="font-size:large;">🎵</span><span style="margin-left:.2rem;"> <%=ele%></span></div>
-                           
-                           
-                <%} else { %>
-                          <div class="folder"><span style="font-size:large;">📁</span><span style="margin-left:.2rem;"> <%=ele%> </span></div>
-                  
-                       <%}%>
-                         <%  } %>
-                          
-                         
+                        <%} else if(ele.includes('.mp3')||ele.includes('.wav')){ %>
+                            <div class="folder"><span style="font-size:large;">🎵</span><span
+                                    style="margin-left:.2rem;">
+                                    <%=ele%>
+                                </span></div>
+
+
+                            <%} else { %>
+                                <div class="folder"><span style="font-size:large;">📁</span><span
+                                        style="margin-left:.2rem;">
+                                        <%=ele%>
+                                    </span></div>
+
+                                <%}%>
+                                    <% } %>
+
+
     </section>
     <section class="main">
 
-              <%for(let ele of data) { %>
+        <%for(let ele of data) { %>
 
-                  <% if(ele.includes(".txt")||ele.includes(".docx")||ele.includes('.doc')||ele.includes('.pdf')) { %>
-                             <div class="folder"><span class="spn1">📄</span><span class="spn2"><%=ele%></span></div>
-                              
-                  <% } else if(ele.includes('.jpg')||ele.includes('.png')){ %>
-                              <div class="folder"><span class="spn1">🖼️</span><span class="spn2"><%=ele%> </span></div> 
-                            
-                  <%} else if(ele.includes('.mp4')||ele.includes('.mkv')||ele.includes('.mov')){ %>      
-                             <div class="folder"><span class="spn1">🎞️</span><span class="spn2"><%=ele%></span></div>
+            <% if(ele.includes(".txt")||ele.includes(".docx")||ele.includes('.doc')||ele.includes('.pdf')) { %>
+                <div class="folder"><span class="spn1">📄</span><span class="spn2">
+                        <%=ele%>
+                    </span></div>
+
+                <% } else if(ele.includes('.jpg')||ele.includes('.png')){ %>
+                    <div class="folder"><span class="spn1">🖼️</span><span class="spn2">
+                            <%=ele%>
+                        </span></div>
+
+                    <%} else if(ele.includes('.mp4')||ele.includes('.mkv')||ele.includes('.mov')){ %>
+                        <div class="folder"><span class="spn1">🎞️</span><span class="spn2">
+                                <%=ele%>
+                            </span></div>
 
 
-                 <%} else if(ele.includes('.mp3')||ele.includes('.wav')){ %>
-                                 <div class="folder"><span class="spn1">🎵</span><span class="spn2"> <%=ele%></span></div>
+                        <%} else if(ele.includes('.mp3')||ele.includes('.wav')){ %>
+                            <div class="folder"><span class="spn1">🎵</span><span class="spn2">
+                                    <%=ele%>
+                                </span></div>
 
-                                               
-                <%} else { %>
-                          <div class="folder"><span class="spn1">📁</span><span class="spn2"> <%=ele%> </span></div>
-                  
-                       <%}%>
-                         <%  } %>
+
+                            <%} else { %>
+                                <div class="folder"><span class="spn1">📁</span><span class="spn2">
+                                        <%=ele%>
+                                    </span></div>
+
+                                <%}%>
+                                    <% } %>
 
     </section>
-    
+
 </body>
 <script type="module" src="/script.js"> </script>
+
 </html>

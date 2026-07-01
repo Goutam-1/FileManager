@@ -1,9 +1,9 @@
-let delet=document.getElementById("delete")
-let newFolder=document.getElementById("folder")
-let rename=document.getElementById('rename')
-let scn=document.getElementsByClassName("main")
-let newFile=document.getElementById("file")
-let inp=document.getElementById("search")
+let delet = document.getElementById("delete")
+let newFolder = document.getElementById("folder")
+let rename = document.getElementById('rename')
+let scn = document.getElementsByClassName("main")
+let newFile = document.getElementById("file")
+let inp = document.getElementById("search")
 let uploadBtn = document.getElementById("uploadBtn")
 let fileInput = document.getElementById("fileInput")
 
@@ -11,13 +11,14 @@ let fileInput = document.getElementById("fileInput")
 
 document.addEventListener("click", (e) => {
   if (e.target.closest("div")?.classList.contains("folder")) {
-      document.querySelectorAll(".select").forEach((ele) => {
+    document.querySelectorAll(".select").forEach((ele) => {
       ele.classList.remove("select");
     });
     e.target.closest("div").classList.add("select");
   } else {
-      document.querySelectorAll(".select").forEach((ele) => {
-      ele.classList.remove("select") });
+    document.querySelectorAll(".select").forEach((ele) => {
+      ele.classList.remove("select")
+    });
   }
 });
 
@@ -29,7 +30,7 @@ rename.addEventListener("click", (ev) => {
   ev.stopPropagation();
   if (!document.querySelector(".select", ".folder")) return;
   let input = document.createElement("input");
-  let oldName = document.querySelector(".select").children[1].innerText
+  let oldName = document.querySelector(".select").children[1].innerText.trim();
   input.value = oldName;
   document.querySelector(".select").replaceChild(input, document.querySelector(".select").children[1]);
   input.focus();
@@ -46,35 +47,36 @@ rename.addEventListener("click", (ev) => {
     })
       .then((res) => res.json())
       .then(() => {
-            window.location.href=window.location.href
+        window.location.href = window.location.href
       });
   });
-});   
+});
 
 
 
- delet.addEventListener("click", (ev) => {
-   ev.stopPropagation();
-   if (!document.querySelector(".select", ".folder")) return;
-   let delFolder = document.querySelector(".select").children[1].innerText
+delet.addEventListener("click", (ev) => {
+  ev.stopPropagation();
+  if (!document.querySelector(".select", ".folder")) return;
+  let delFolder = document.querySelector(".select").children[1].innerText.trim();
 
   console.log(delFolder);
-   fetch(window.location.href, {
-     method: "DELETE",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify({ delFolder: delFolder }),  
-     }) .then((res) => res.json()).then(() => {
-      window.location.href=window.location.href });
- });   
-
-
-
-
-
-  scn[0].addEventListener("dblclick", (e) => {
-     let i = e.target.closest("div").children[1].innerText;            
-     window.location.href = window.location.origin + window.location.pathname + "/" + `${i}`;
+  fetch(window.location.href, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ delFolder: delFolder }),
+  }).then((res) => res.json()).then(() => {
+    window.location.href = window.location.href
   });
+});
+
+
+
+
+
+scn[0].addEventListener("dblclick", (e) => {
+  let i = e.target.closest("div").children[1].innerText.trim();
+  window.location.href = window.location.origin + window.location.pathname + "/" + `${i}`;
+});
 
 
 
@@ -95,93 +97,94 @@ newFolder.addEventListener("click", (e) => {
   input.focus();
   input.addEventListener("blur", (ev) => {
     if (!input.value.trim()) {
-       ev.target.closest("div").remove();
-       return;
+      ev.target.closest("div").remove();
+      return;
     }
     fetch(window.location.href, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ NewFolder: ev.target.value }),
-    }).then((res) =>{ window.location.href=window.location.href } );
+    }).then((res) => { window.location.href = window.location.href });
 
-   });
+  });
 });
 
 
 
-inp.addEventListener('change',(e)=>{
+inp.addEventListener('change', (e) => {
 
-      fetch(window.location.href,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({'inpute':e.target.value})
-      }).then((res)=>res.json()).then((res)=>{
-        console.log(res.data);
-        
-        
-if(res.data.length>0)
-   { scn[0].innerText="";
-    newFolder.disabled=true 
-   for (let ele of res.data) {
-    let div = document.createElement("div");
-    div.classList.add("folder");
+  fetch(window.location.href, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'inpute': e.target.value })
+  }).then((res) => res.json()).then((res) => {
+    console.log(res.data);
 
-    let spn1 = document.createElement("span");
-    spn1.classList.add("spn1");
 
-    // Convert to lowercase for case-insensitive matching
-    let file = ele.toLowerCase();
+    if (res.data.length > 0) {
+      scn[0].innerText = "";
+      newFolder.disabled = true
+      for (let ele of res.data) {
+        let div = document.createElement("div");
+        div.classList.add("folder");
 
-    if (
-        file.endsWith(".txt") ||
-        file.endsWith(".doc") ||
-        file.endsWith(".docx") ||
-        file.endsWith(".pdf")
-    ) {
-        spn1.innerText = "📄";
+        let spn1 = document.createElement("span");
+        spn1.classList.add("spn1");
+
+        // Convert to lowercase for case-insensitive matching
+        let file = ele.toLowerCase();
+
+        if (
+          file.endsWith(".txt") ||
+          file.endsWith(".doc") ||
+          file.endsWith(".docx") ||
+          file.endsWith(".pdf")
+        ) {
+          spn1.innerText = "📄";
+        }
+        else if (
+          file.endsWith(".jpg") ||
+          file.endsWith(".jpeg") ||
+          file.endsWith(".png") ||
+          file.endsWith(".gif") ||
+          file.endsWith(".webp")
+        ) {
+          spn1.innerText = "🖼️";
+        }
+        else if (
+          file.endsWith(".mp4") ||
+          file.endsWith(".mkv") ||
+          file.endsWith(".mov") ||
+          file.endsWith(".avi")
+        ) {
+          spn1.innerText = "🎞️";
+        }
+        else if (
+          file.endsWith(".mp3") ||
+          file.endsWith(".wav") ||
+          file.endsWith(".aac") ||
+          file.endsWith(".flac")
+        ) {
+          spn1.innerText = "🎵";
+        }
+        else {
+          // Folder
+          spn1.innerText = "📁";
+        }
+
+        let spn2 = document.createElement("span");
+        spn2.classList.add("spn2");
+        spn2.innerText = ele;
+
+        div.appendChild(spn1);
+        div.appendChild(spn2);
+        scn[0].appendChild(div);
+      }
+
     }
-    else if (
-        file.endsWith(".jpg") ||
-        file.endsWith(".jpeg") ||
-        file.endsWith(".png") ||
-        file.endsWith(".gif") ||
-        file.endsWith(".webp")
-    ) {
-        spn1.innerText = "🖼️";
-    }
-    else if (
-        file.endsWith(".mp4") ||
-        file.endsWith(".mkv") ||
-        file.endsWith(".mov") ||
-        file.endsWith(".avi")
-    ) {
-        spn1.innerText = "🎞️";
-    }
-    else if (
-        file.endsWith(".mp3") ||
-        file.endsWith(".wav") ||
-        file.endsWith(".aac") ||
-        file.endsWith(".flac")
-    ) {
-        spn1.innerText = "🎵";
-    }
-    else {
-        // Folder
-        spn1.innerText = "📁";
-    }
+  })
 
-    let spn2 = document.createElement("span");
-    spn2.classList.add("spn2");
-    spn2.innerText = ele;
-
-    div.appendChild(spn1);
-    div.appendChild(spn2);
-    scn[0].appendChild(div);
-}
-
-}}) 
-
- })       
+})
 
 
 
@@ -201,16 +204,16 @@ newFile.addEventListener("click", (e) => {
   input.focus();
   input.addEventListener("blur", (ev) => {
     if (!input.value.trim()) {
-       ev.target.closest("div").remove();
-       return;
+      ev.target.closest("div").remove();
+      return;
     }
     fetch(window.location.href, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ NewFile: ev.target.value }),
-    }).then((res) =>{ window.location.href=window.location.href } );
+    }).then((res) => { window.location.href = window.location.href });
 
-   });
+  });
 });
 
 uploadBtn.addEventListener("click", () => {
@@ -223,11 +226,11 @@ fileInput.addEventListener("change", (e) => {
 
   const formData = new FormData();
   formData.append("file", file);
-  
+
   const currentPath = window.location.pathname.slice(1);
   let uploadUrl = "/upload";
   let redirectPath = '/';
-  
+
   if (currentPath) {
     uploadUrl = "/upload?path=" + encodeURIComponent(currentPath);
     redirectPath = '/' + currentPath;
