@@ -110,7 +110,17 @@ app.patch('/',(req,res)=>{
         fullpath=`${fullpath}(${count})`
       count++;
     }
-    fs.renameSync(path.join(rootPath,oldName),fullpath);
+    try {
+      fs.renameSync(path.join(rootPath,oldName),fullpath);
+    } catch (err) {
+      if (err.code === 'EXDEV') {
+        // OverlayFS does not support renaming non-empty directories from lower layers
+        fs.cpSync(path.join(rootPath,oldName), fullpath, { recursive: true });
+        fs.rmSync(path.join(rootPath,oldName), { recursive: true, force: true });
+      } else {
+        return res.status(500).json({massage: err.message});
+      }
+    }
            res.json({massage:"ok"})           
 })
 
@@ -136,7 +146,17 @@ console.log(oldName, newName);
     }
     console.log(oldName,fullpath);
     
-     fs.renameSync(oldName,fullpath);
+     try {
+       fs.renameSync(oldName,fullpath);
+     } catch (err) {
+       if (err.code === 'EXDEV') {
+         // OverlayFS does not support renaming non-empty directories from lower layers
+         fs.cpSync(oldName, fullpath, { recursive: true });
+         fs.rmSync(oldName, { recursive: true, force: true });
+       } else {
+         return res.status(500).json({massage: err.message});
+       }
+     }
        res.json({massage:"ok"})  
 
 })
